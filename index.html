@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Metadata and title for the document -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management System</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <!-- Main container for the application -->
+    <div class="container">
+      <!-- Header section with the application title -->
+      <header>
+        <h1>Simple Library System</h1>
+      </header>
+
+      <main>
+        <!-- Button container for toggling the add book form -->
+        <div class="button-container">
+          <button id="toggle-form" class="toggle-btn">Add New Book</button>
+        </div>
+
+        <!-- Section for adding new books, initially hidden -->
+        <section class="add-book-section" style="display: none">
+          <h2>Add New Book</h2>
+          <!-- Form for submitting new book details -->
+          <form id="book-form">
+            <!-- Row containing title and author input fields -->
+            <div class="form-row">
+              <!-- Form group for the book title -->
+              <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" required />
+              </div>
+              <!-- Form group for the book author -->
+              <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" required />
+              </div>
+            </div>
+            <!-- Form group for selecting the book type -->
+            <div class="form-group">
+              <label for="type">Book Type:</label>
+              <select id="type">
+                <option value="physical">Physical Book</option>
+                <option value="ebook">E-Book</option>
+              </select>
+            </div>
+            <!-- Form group for E-Book specific details (file size), initially hidden -->
+            <div id="ebook-details" class="form-group" style="display: none">
+              <label for="fileSize">File Size (MB):</label>
+              <input type="number" id="fileSize" min="1" value="1" />
+            </div>
+            <!-- Submit button for the form -->
+            <button type="submit" class="btn-primary">Add Book</button>
+          </form>
+        </section>
+
+        <!-- Section displaying the collection of books -->
+        <section class="library-section">
+          <h2>Book Collection</h2>
+          <!-- Grid container where book cards will be displayed -->
+          <div id="book-list" class="book-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- SortableJS CDN for drag-and-drop functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Link to the external JavaScript file -->
+    <script src="index.js"></script>
+  </body>
+</html>

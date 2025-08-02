@@ -1,0 +1,393 @@
+/* Universal selector: Resets margin and padding, sets box-sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles: Sets font, line height, background color, padding, and text color */
+body {
+  font-family: "Arial", sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f8;
+  padding: 20px;
+  color: #333;
+}
+
+/* Container styles: Sets max width, centers content, adds background, padding, border radius, and shadow */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styles: Centers text, adds bottom margin and border */
+header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Heading styles: Sets color for h1 and h2 */
+h1,
+h2 {
+  color: #2c3e50;
+}
+
+/* Header paragraph styles: Sets color */
+header p {
+  color: #7f8c8d;
+}
+
+/* Tabs container styles: Uses flexbox, adds bottom margin and border */
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Tab button styles: Sets background, border, padding, cursor, margin, and border radius */
+.tab-btn {
+  background-color: #f4f4f4;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 5px;
+  border-radius: 5px 5px 0 0;
+}
+
+/* Active tab button styles: Sets background color and text color */
+.tab-btn.active {
+  background-color: #4a6eb5;
+  color: white;
+}
+
+/* Tab content styles: Hides content by default, adds padding */
+.tab-content {
+  display: none;
+  padding: 20px 0;
+}
+
+/* Active tab content styles: Displays content */
+.tab-content.active {
+  display: block;
+}
+
+/* Form row styles: Uses flexbox, adds gap and bottom margin */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+/* Form group styles: Allows flexible growth, adds bottom margin */
+.form-group {
+  flex: 1;
+  margin-bottom: 15px;
+}
+
+/* Label styles: Displays as block, adds bottom margin and bold font weight */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Input and select styles: Sets width, padding, border, and border radius */
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Primary button styles: Sets background, color, border, padding, radius, cursor, and width */
+.btn-primary {
+  background-color: #4a6eb5;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Primary button hover styles: Changes background color on hover */
+.btn-primary:hover {
+  background-color: #3a5894;
+}
+
+/* Drag and drop styles for book cards */
+.book-card {
+  cursor: move;
+  user-select: none;
+}
+
+.book-card.sortable-ghost {
+  opacity: 0.5;
+  transform: rotate(5deg);
+}
+
+.book-card.sortable-chosen {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.book-card.sortable-drag {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  z-index: 1001;
+  opacity: 0.95;
+  cursor: grabbing;
+}
+
+/* Book grid styles: Uses CSS grid for layout, sets columns and gap, adds top margin */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+
+  /* 🔧 Helps SortableJS snap items more naturally */
+  grid-auto-flow: row dense;
+}
+
+
+/* Book card styles: Sets background, border, radius, padding, position, transition, and animation */
+.book-card {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 15px;
+  position: relative;
+  transition: transform 0.2s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Book card hover styles: Translates card upwards and adds shadow */
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Borrowed book card styles: Adds a red left border */
+.book-card.borrowed {
+  border-left: 3px solid #e74c3c;
+}
+
+/* Available book card styles: Adds a green left border */
+.book-card.available {
+  border-left: 4px solid #27ae60;
+}
+
+/* Ebook card styles: Adds a blue left border (overrides others) */
+.ebook {
+  border-left: 3px solid #3498db !important; /* Important to override other border styles */
+}
+
+/* Book title styles: Sets font size, bottom margin, and color */
+.book-title {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+
+/* Book metadata styles: Sets font size, bottom margin, and color */
+.book-meta {
+  font-size: 14px;
+  margin-bottom: 3px;
+  color: #7f8c8d;
+}
+
+/* Book details container styles: Adds top margin */
+.book-details {
+  margin-top: 15px;
+}
+
+/* Book actions container styles: Uses flexbox to space buttons, adds top margin */
+.book-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* General button styles: Sets padding, border, radius, cursor, and font size */
+.btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Borrow button styles: Sets background color and text color */
+.btn-borrow {
+  background-color: #2ecc71;
+  color: white;
+}
+
+/* Return button styles: Sets background color and text color */
+.btn-return {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Remove button styles: Sets background color and text color */
+.btn-remove {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Search bar container styles: Uses flexbox, adds bottom margin */
+.search-bar {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+/* Search bar input styles: Allows flexible growth, sets padding, border, and border radius */
+.search-bar input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+}
+
+/* Search bar button styles: Sets padding, background, color, border, radius, and cursor */
+.search-bar button {
+  padding: 0 20px;
+  background-color: #4a6eb5;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* Filter options container styles: Uses flexbox, adds gap and bottom margin */
+.filter-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Filter options select styles: Allows flexible growth */
+.filter-options select {
+  flex: 1;
+}
+
+/* Modal styles: Hides modal by default, sets fixed position, z-index, dimensions, and background */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal content styles: Sets background, margin, padding, width, radius, shadow, and position */
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 30px;
+  width: 50%;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Close modal button styles: Sets position, font size, weight, and cursor */
+.close-modal {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Modal actions container styles: Adds top margin, uses flexbox to align buttons, adds gap */
+#modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Status badge styles: Displays inline-block, sets padding, radius, font size, color, and top margin */
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: white;
+  margin-top: 5px;
+}
+
+/* Available status badge styles: Sets background color */
+.status-available {
+  background-color: #27ae60;
+}
+
+/* Borrowed status badge styles: Sets background color */
+.status-borrowed {
+  background-color: #e74c3c;
+}
+
+/* Ebook status badge styles: Sets background color */
+.status-ebook {
+  background-color: #3498db;
+}
+
+/* Add book and library section styles: Adds bottom margin */
+.add-book-section,
+.library-section {
+  margin-bottom: 20px;
+}
+
+/* Button container styles: Centers text, adds bottom margin */
+.button-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Toggle button styles: Sets background, color, border, padding, radius, cursor, font size, and transition */
+.toggle-btn {
+  background-color: #4a6eb5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+/* Toggle button hover styles: Changes background color on hover */
+.toggle-btn:hover {
+  background-color: #3a5894;
+}
+
+/* highlight when swapping */
+.sortable-swap-highlight {
+  opacity: 0.8;
+  outline: 2px dashed #3498db;
+}
+
+/* Fade-in animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
