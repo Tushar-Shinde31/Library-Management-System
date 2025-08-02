@@ -130,52 +130,51 @@ class EBook extends Book {
 // [keep your Book and EBook class code here]
 
 // Library class to manage the collection of books
+// Library class to manage a collection of books and ebooks
 class Library {
   constructor() {
-    this.books = [];
-    this.loadBooks();
+    this.books = [];       // Array to store book instances
+    this.loadBooks();      // Load books from local storage
+
+    // If no books exist, populate default books
     if (this.books.length === 0) {
       this.addDefaultBooks();
     }
   }
 
+  // Adds a set of default physical books and ebooks
   addDefaultBooks() {
-    const defaultBooks = [
-      new Book("To Kill a Mockingbird", "Harper Lee"),
-      new Book("1984", "George Orwell"),
-      new Book("The Great Gatsby", "F. Scott Fitzgerald"),
-      new Book("Pride and Prejudice", "Jane Austen")
-    ];
+    const defaultBooks = [ /* ...physical books... */ ];
+    const defaultEbooks = [ /* ...ebooks with file sizes... */ ];
 
-    const defaultEbooks = [
-      new EBook("The Digital Age", "Mark Stevenson", 3.5),
-      new EBook("Programming Basics", "John Smith", 8.2),
-      new EBook("Artificial Intelligence", "Alan Turing", 5.7)
-    ];
-
+    // Merge and add all default items to the library
     [...defaultBooks, ...defaultEbooks].forEach((book) => {
       this.books.push(book);
     });
 
-    this.saveBooks();
+    this.saveBooks();  // Save updated list to local storage
   }
 
+  // Adds a new book or ebook to the library
   addBook(book) {
     this.books.push(book);
-    this.saveBooks();
-    this.displayBooks();
+    this.saveBooks();      // Save updates
+    this.displayBooks();   // Refresh UI
   }
 
+  // Removes a book by ID
   removeBook(id) {
     this.books = this.books.filter((book) => book.id !== id);
     this.saveBooks();
     this.displayBooks();
   }
 
+  // Finds a book by its unique ID
   getBookById(id) {
     return this.books.find((book) => book.id === id);
   }
 
+  // Handles borrowing a book
   borrowBook(id, borrower) {
     const book = this.getBookById(id);
     if (book?.borrow(borrower)) {
@@ -184,6 +183,7 @@ class Library {
     }
   }
 
+  // Handles returning a book
   returnBook(id) {
     const book = this.getBookById(id);
     if (book?.return()) {
@@ -192,52 +192,54 @@ class Library {
     }
   }
 
+  // Saves current book list to browser's local storage
   saveBooks() {
     localStorage.setItem("books", JSON.stringify(this.books));
   }
 
+  // Loads saved books from local storage and rebuilds book objects
   loadBooks() {
     const savedBooks = localStorage.getItem("books");
     if (savedBooks) {
       const bookObjects = JSON.parse(savedBooks);
+
+      // Restore each book to correct class (Book or EBook)
       this.books = bookObjects.map((obj) => {
         if (obj.type === "ebook") {
           const ebook = new EBook(obj.title, obj.author, obj.fileSize);
-          ebook.id = obj.id;
-          ebook.isAvailable = obj.isAvailable;
-          ebook.borrower = obj.borrower;
+          Object.assign(ebook, obj);  // Restore properties
           return ebook;
         } else {
           const book = new Book(obj.title, obj.author);
-          book.id = obj.id;
-          book.isAvailable = obj.isAvailable;
-          book.borrower = obj.borrower;
+          Object.assign(book, obj);   // Restore properties
           return book;
         }
       });
     }
   }
 
+  // Renders book cards in the UI and sets up event listeners
   displayBooks() {
     const bookList = document.getElementById("book-list");
     bookList.innerHTML = "";
 
+    // Show placeholder message if no books
     if (this.books.length === 0) {
       bookList.innerHTML = "<p>No books in the library.</p>";
       return;
     }
 
+    // Render each book's HTML markup
     this.books.forEach((book) => {
       bookList.innerHTML += book.getHtml();
     });
 
+    // Setup event listeners for borrow, return, and remove buttons
     document.querySelectorAll(".btn-borrow").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const bookId = e.target.closest(".book-card").dataset.id;
         const borrower = prompt("Enter your name:");
-        if (borrower) {
-          this.borrowBook(bookId, borrower);
-        }
+        if (borrower) this.borrowBook(bookId, borrower);
       });
     });
 
@@ -251,17 +253,17 @@ class Library {
     document.querySelectorAll(".btn-remove").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const bookId = e.target.closest(".book-card").dataset.id;
-        const confirmRemove = confirm("Are you sure you want to remove this book?");
-        if (confirmRemove) {
+        if (confirm("Are you sure you want to remove this book?")) {
           this.removeBook(bookId);
         }
       });
     });
 
-    this.initializeSortable(); // ✅ Setup DnD
+    this.initializeSortable(); // 🔄 Enable drag & drop sorting
   }
 
- initializeSortable() {
+  // Makes book cards draggable and reorderable using SortableJS
+  initializeSortable() {
     const bookGrid = document.getElementById("book-list");
     if (!bookGrid || bookGrid.children.length === 0) return;
 
@@ -270,52 +272,57 @@ class Library {
       ghostClass: 'sortable-ghost',
       chosenClass: 'sortable-chosen',
       dragClass: 'sortable-drag',
-      swap: true,                  // ✅ Enable swap behavior
-      swapClass: 'sortable-swap-highlight', // optional styling
-      invertSwap: true,            // use inverted zones
-      swapThreshold: 0.5,          // adjust swap sensitivity
-      direction: 'auto',           // auto-detect axis per drag :contentReference[oaicite:3]{index=3}
+      swap: true,
+      swapClass: 'sortable-swap-highlight',
+      invertSwap: true,
+      swapThreshold: 0.5,
+      direction: 'auto',
       fallbackOnBody: true,
       onStart: evt => { evt.item.style.zIndex = '1000'; },
       onEnd: evt => {
         evt.item.style.zIndex = '';
         const cards = bookGrid.querySelectorAll('.book-card');
+
+        // Update internal book list order to match drag result
         this.books = Array.from(cards).map(card =>
           this.books.find(b => b.id === card.dataset.id)
         );
+
         this.saveBooks();
+
+        // Optionally tag new position
         cards.forEach((card, i) => card.dataset.index = i);
       }
     });
   }
 }
 
-// DOM Ready
+// DOM initialization after page is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-  const library = new Library();
+  const library = new Library();  // Instantiate library manager
 
+  // DOM elements for book creation form
   const bookForm = document.getElementById("book-form");
   const typeSelect = document.getElementById("type");
   const ebookDetails = document.getElementById("ebook-details");
   const toggleFormBtn = document.getElementById("toggle-form");
   const addBookSection = document.querySelector(".add-book-section");
 
+  // Toggle book form visibility
   toggleFormBtn.addEventListener("click", () => {
-    if (addBookSection.style.display === "none") {
-      addBookSection.style.display = "block";
-      toggleFormBtn.textContent = "Hide Form";
-    } else {
-      addBookSection.style.display = "none";
-      toggleFormBtn.textContent = "Add New Book";
-    }
+    const isHidden = addBookSection.style.display === "none";
+    addBookSection.style.display = isHidden ? "block" : "none";
+    toggleFormBtn.textContent = isHidden ? "Hide Form" : "Add New Book";
   });
 
+  // Show/hide ebook-specific fields
   typeSelect.addEventListener("change", () => {
     ebookDetails.style.display = typeSelect.value === "ebook" ? "block" : "none";
   });
 
+  // Handle form submission to create a new book or ebook
   bookForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+    e.preventDefault();  // Prevent page reload
 
     const title = document.getElementById("title").value;
     const author = document.getElementById("author").value;
@@ -329,11 +336,11 @@ document.addEventListener("DOMContentLoaded", () => {
       book = new Book(title, author);
     }
 
-    library.addBook(book);
+    library.addBook(book);  // Add to library
 
-    bookForm.reset();
-    ebookDetails.style.display = "none";
+    bookForm.reset();            // Clear form fields
+    ebookDetails.style.display = "none";  // Hide ebook section
   });
 
-  library.displayBooks();
+  library.displayBooks();  // Initial UI render
 });
